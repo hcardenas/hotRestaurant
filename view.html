@@ -27,7 +27,7 @@
 						<br>
 						<p class="lead">
 							
-							<a class="btn btn-danger btn-lg" href="#" ><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</a>
+							<a class="btn btn-danger btn-lg" href="/reserve" ><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</a>
 							<a class="btn btn-default btn-lg" href="/" ><span class="glyphicon glyphicon-home"></span> Home</a>
 						</p>
 					</div>
@@ -38,17 +38,17 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading"><h4>Current Reservations</h4></div>
-						<div class="panel-body">
+						<div class="panel-body" id="content_c">
 							
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12" >
 					<div class="panel panel-default">
 						<div class="panel-heading"><h4>Waiting List</h4></div>
-						<div class="panel-body">
+						<div class="panel-body" id="content_w">
 							
 						</div>
 					</div>
@@ -64,7 +64,42 @@
 
 		</div>
 		
+		<script type="text/javascript">
 
+			$( document ).ready(function() {
+			    console.log( "ready!" );
+			    $.get("/api/tables", function(data) {
+
+		        	for(var i in data) {
+		        		var panel = $("<div>").addClass("panel panel-default");
+		        		var inner = $("<div>").addClass("panel-body");
+		        		var content = $("<h2>").html(`<span class='label label-primary'>${parseInt(i)+1}</span> | ${data[i].customerName}`);
+		        		panel.append(inner.append(content));
+		        		$("#content_c").append( panel);
+		        	}
+		      	});
+
+		      	$.get("/api/reserve", function(data) {
+
+		        	for(var i in data) {
+		        		var panel = $("<div>").addClass("panel panel-default");
+		        		var inner = $("<div>").addClass("panel-body");
+		        		var content = $("<h2>").html(`<span class='label label-primary'>${parseInt(i)+1}</span> | ${data[i].customerName}`);
+		        		panel.append(inner.append(content));
+		        		$("#content_w").append( panel);
+		        	}
+		      	});
+
+			});
+
+		    $("#search-btn").on("click", function() {
+		      var searchedCharacter = $("#character-search").val().trim();
+
+		      searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+
+		      
+		    });
+  		</script>
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->

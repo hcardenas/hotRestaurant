@@ -38,7 +38,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading"><h4>Table Reservation</h4></div>
 						<div class="panel-body">
-							<form>
+							<form id="myform">
 								<div class="form-group">
 									<label for="name">Name:</label>
 									<input type="text" class="form-control" id="name">
@@ -62,6 +62,11 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><a href="/api/tables">API Table Link</a> | <a href="/api/reserve">API Wait List</a></p>
+				</div>
+			</div>
 
 
 		</div>
@@ -77,12 +82,13 @@
 		        customerID: $("#id").val().trim()
 		      };
 
-		      newReservation.customerID = newReservation.customerID.replace(/\s+/g, "").toLowerCase;
+		      //newReservation.customerID = newReservation.customerID.replace(/\s+/g, "").toLowerCase;
 
 		      // Question: What does this code do??
 		      $.post("/api/new", newReservation)
 		      .done(function(data) {
 		        console.log(data);
+		        $('#myform')[0].reset();
 		        alert("Thanks for booking!");
 		      });
 		    });
